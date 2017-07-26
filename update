@@ -1,0 +1,15 @@
+#!/bin/bash
+set -e
+set -o pipefail
+
+echo -n "ipfs .tar.gz url: "; read url
+cd dist
+rm -rf *
+wget "$url"
+tar xzf Qm*
+rm Qm*
+mv www/* ./
+rm -r www
+cat index.html | grep -v STUB > index.html.new
+mv index.html.new index.html
+echo "done"

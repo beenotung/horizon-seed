@@ -1,0 +1,17 @@
+#!/bin/bash
+
+hash "hz" 2>/dev/null
+if [ $? != 0 ]; then
+  npm i -g horizon
+fi
+
+run_horizon="hz serve --dev --bind 0.0.0.0 --token-secret STUB"
+
+hash "tmux" 2>/dev/null
+if [ $? == 0 ] && [ "$TMUX" == "" ]; then
+  tmux start
+  tmux new -dP -s hz "$run_horizon"
+  tmux attach -t hz
+else
+  $run_horizon
+fi
